@@ -1,6 +1,5 @@
 <?php
 require 'Koneksi.php';
-global $koneksi;
 
 function addMember($id_member, $nama_member, $nomor_member, $alamat, $tgl_mendaftar, $tgl_terakhir_bayar) {
     global $koneksi;
@@ -61,16 +60,6 @@ function getMemberById($id_member) {
     return $member;
 }
 
-function getMemberByNama($nama_member) {
-    global $koneksi;
-    $nama_member = mysqli_real_escape_string($koneksi, $nama_member);
-    $sql = "SELECT * FROM member WHERE nama_member = '$nama_member'";
-    $query = mysqli_query($koneksi, $sql);
-    $member = mysqli_fetch_assoc($query);
-    mysqli_close($koneksi);
-    return $member;
-}
-
 function getMember() {
     global $koneksi;
     $sql = "SELECT * FROM member";
@@ -107,9 +96,9 @@ function deleteBuku($id_buku) {
 if (isset($_GET['delete_id_buku'])) {
     $id_buku = $_GET['delete_id_buku'];
     if (deleteBuku($id_buku)) {
-        echo "<script>alert('Data Peminjaman berhasil dihapus'); window.location='Peminjaman.php';</script>";
+        echo "<script>alert('Data Buku berhasil dihapus'); window.location='Peminjaman.php';</script>";
     } else {
-        echo "<script>alert('Gagal menghapus data Peminjaman'); window.location='Peminjaman.php';</script>";
+        echo "<script>alert('Gagal menghapus data Buku'); window.location='Peminjaman.php';</script>";
     }
 }
 
@@ -164,6 +153,24 @@ function addPinjam($id_peminjaman, $tgl_pinjam, $tgl_kembali, $id_member, $id_bu
     return $query;
 }
 
+function deletePinjam($id_peminjaman) {
+    global $koneksi;
+    $id_peminjaman = mysqli_real_escape_string($koneksi, $id_peminjaman);
+    $sql = "DELETE FROM peminjaman WHERE id_peminjaman = '$id_peminjaman'";
+    $query = mysqli_query($koneksi, $sql);
+    mysqli_close($koneksi);
+    return $query;
+}
+
+if (isset($_GET['delete_id_peminjaman'])) {
+    $id_peminjaman = $_GET['delete_id_peminjaman'];
+    if (deletePinjam($id_peminjaman)) {
+        echo "<script>alert('Data Peminjaman berhasil dihapus'); window.location='Peminjaman.php';</script>";
+    } else {
+        echo "<script>alert('Gagal menghapus data Peminjaman'); window.location='Peminjaman.php';</script>";
+    }
+}
+
 function updatePinjam($id_peminjaman_lama, $id_peminjaman_baru, $tgl_pinjam, $tgl_kembali, $id_member, $id_buku) {
     global $koneksi;
     $id_peminjaman_lama = mysqli_real_escape_string($koneksi, $id_peminjaman_lama);
@@ -180,6 +187,16 @@ function updatePinjam($id_peminjaman_lama, $id_peminjaman_baru, $tgl_pinjam, $tg
     return $query;
 }
 
+function getPinjamById($id_peminjaman) {
+    global $koneksi;
+    $id_peminjaman = mysqli_real_escape_string($koneksi, $id_peminjaman);
+    $sql = "SELECT * peminjaman buku WHERE id_peminjaman = '$id_peminjaman'";
+    $query = mysqli_query($koneksi, $sql);
+    $lending = mysqli_fetch_assoc($query);
+    mysqli_close($koneksi);
+    return $lending;
+}
+
 function getPinjam() {
     global $koneksi;
     $sql = "SELECT 
@@ -191,15 +208,5 @@ function getPinjam() {
     while ($data = mysqli_fetch_assoc($query)) {
         $lending[] = $data;
     }
-    return $lending;
-}
-
-function getPinjamById($id_peminjaman) {
-    global $koneksi;
-    $id_peminjaman = mysqli_real_escape_string($koneksi, $id_peminjaman);
-    $sql = "SELECT * peminjaman buku WHERE id_peminjaman = '$id_peminjaman'";
-    $query = mysqli_query($koneksi, $sql);
-    $lending = mysqli_fetch_assoc($query);
-    mysqli_close($koneksi);
     return $lending;
 }

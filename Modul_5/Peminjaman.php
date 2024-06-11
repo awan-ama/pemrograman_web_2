@@ -43,7 +43,7 @@
             <td>$tgl_pinjam</td>
             <td>$tgl_kembali</td>
             <td><a href='FormPeminjaman.php?id=$id_peminjaman'>Edit</a></td>
-            <td><a href='Peminjaman.php?delete_id_member=$id_peminjaman' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a></td>
+            <td><a href='Peminjaman.php?delete_id_peminjaman=$id_peminjaman' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a></td>
             </tr>";
         $no++;
     }
