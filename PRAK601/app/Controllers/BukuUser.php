@@ -7,6 +7,7 @@ class BukuUser extends BaseController
     public function home(){
         return view('user');
     }
+    
 	public function index()
 	{
         $buku = new BukuModel();
